@@ -15,11 +15,11 @@ It will not change your appointment, but will let you know (by mail) that there 
 ## How to run
 1. Make sure you have pipenv installed
 2. Run `pipenv install` to install all python dependencies
-3. Copy the sample env file and set the relevant values inside `cp .env.exmaple .env`
+3. Copy the sample env file and set the relevant values inside `cp .env.example .env`
 4. Run `pipenv run checker` to execute the checker script
 
 ## Set as cronjob
-`*/15 * * * * cd /PATH/TO/clalit-appt-checker && /usr/local/bin/pipenv run checker >/tmp/cronstdout.log 2>/tmp/cronstderr.log`
+`*/15 * * * * cd /PATH/TO/clalit-appt-checker && /usr/local/bin/pipenv run checker >/tmp/cronstdout.log 2>/tmp/cronstderr.log`  
 This will run the script on every 15th minute of the hour (00:00, 00:15, 00:30, 00:45, 01:00 ...)
 
 ## Send mails using gmail
