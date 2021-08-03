@@ -69,15 +69,16 @@ class ClalitChecker(scrapy.Spider):
             elif data['errorType'] == 1:
                 next_month = month == 12 and 1 or month + 1
                 next_year = month == 12 and year + 1 or year
-                yield scrapy.FormRequest(url=self.appointment_url.format(appointment, next_month, next_year),
-                                         cb_kwargs=dict(
-                                             appointment=appointment,
-                                             month=next_month,
-                                             year=next_year,
-                                             original_date=original_date,
-                                             profession_name=profession_name,
-                                         ),
-                                         callback=self.handle_appointments)
+                if datetime.datetime.strptime("{}.{}.{}".format(1, next_month, next_year), "%d.%m.%Y") < original_date:
+                    yield scrapy.FormRequest(url=self.appointment_url.format(appointment, next_month, next_year),
+                                             cb_kwargs=dict(
+                                                 appointment=appointment,
+                                                 month=next_month,
+                                                 year=next_year,
+                                                 original_date=original_date,
+                                                 profession_name=profession_name,
+                                             ),
+                                             callback=self.handle_appointments)
 
             elif data['errorType'] == 3:
                 self.logger.error("There was an error in Clalit's website")
