@@ -27,3 +27,14 @@ In order to send emails using SMTP with gmail you will need to configure your gm
 
 ## Output to a local file
 In order to export the results to a local json file you need to configure the file name. The file will be created and overwriten every execution of the crawler
+
+## Accessing data via HTTP server
+In order to access the information via http server. Run build the docker image by running:
+
+`docker build -t clalit-attp-checker:latest .`
+
+And then start run a new container using that image we just built:
+
+`docker run --name clalit-checker -p 2222:2222 clalit-attp-checker`
+
+Notice the port that needs to be exported from the container to the host machine in order to be accessible remotely.
