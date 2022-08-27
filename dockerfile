@@ -3,7 +3,6 @@ WORKDIR /usr/src/app
 
 RUN apt-get update && apt-get -y install cron
 
-COPY .env .env
 COPY Pipfile Pipfile
 COPY Pipfile.lock Pipfile.lock
 
