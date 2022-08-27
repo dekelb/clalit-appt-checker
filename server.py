@@ -52,4 +52,4 @@ def _read_earlier_appointments_file():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=2222)
+    app.run(host='0.0.0.0', port=os.environ.get('PORT', 3333))
