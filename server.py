@@ -4,6 +4,7 @@ from flask import Flask, request, Response
 from dotenv import load_dotenv
 import json
 import os
+import time
 
 app = Flask(__name__)
 load_dotenv()
@@ -17,7 +18,7 @@ def home():
 
 @app.route('/get-earlier-professions', methods=['GET'])
 def get_earlier_professions():
-    appointments = _read_earlier_appointments_file()
+    appointments = _read_json_array_file(outfile)
     professions = {a["profession_name"] for a in appointments}
     return output_successful_response(list(professions))
 
@@ -26,29 +27,41 @@ def get_earlier_professions():
 def get_earlier_appointments():
     args = request.args
     profession = args.get("profession")
-    appointments = _read_earlier_appointments_file()
+    appointments = _read_json_array_file(outfile)
     if profession:
         out_appointments = [a for a in appointments if a["profession_name"] == profession]
     else:
         out_appointments = appointments
-    return output_successful_response(out_appointments)
+    res = {
+        "last_updated": _get_modified_time_of_file(outfile),
+        "appointments": out_appointments
+    }
+    return output_successful_response(res)
 
 
 def output_successful_response(response):
     return Response(status=200, response=json.dumps(response, ensure_ascii=False))
 
 
-def _read_earlier_appointments_file():
-    appointments = []
-    if os.path.exists(outfile):
-        with open(outfile, mode="r") as f:
+def _get_modified_time_of_file(file_path):
+    if os.path.exists(file_path):
+        modified_time = round(os.path.getmtime(file_path))
+    else:
+        modified_time = 0
+    return modified_time
+
+
+def _read_json_array_file(file_path):
+    arr = []
+    if os.path.exists(file_path):
+        with open(file_path, mode="r") as f:
             try:
-                appointments = json.load(f)
+                arr = json.load(f)
             except JSONDecodeError:
                 # Ignore error and return empty array
                 pass
 
-    return appointments
+    return arr
 
 
 if __name__ == '__main__':
