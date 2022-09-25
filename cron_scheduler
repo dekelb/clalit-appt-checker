@@ -1,1 +1,1 @@
-*/15 * * * * cd /usr/src/app && /usr/local/bin/pipenv run checker >/tmp/cronstdout.log 2>/tmp/cronstderr.log
+*/5 * * * * cd /usr/src/app && /usr/local/bin/pipenv run checker >/tmp/cronstdout.log 2>/tmp/cronstderr.log
