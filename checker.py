@@ -117,7 +117,17 @@ class ClalitChecker(scrapy.Spider):
         return scrapy.FormRequest(url=self.appointments_iframe_login_url, method="POST", formdata=form_data)
 
 
-if __name__ == "__main__":
+def main():
+    outfile = os.getenv('OUT_FILE')
+    settings = {
+        'FEEDS':
+            {
+                outfile: {
+                    'overwrite': True,
+                    'format': 'json'
+                }
+            }
+    } if outfile else {}
     results = []
 
     def crawler_results(signal, sender, item, response, spider):
@@ -125,10 +135,15 @@ if __name__ == "__main__":
 
     dispatcher.connect(crawler_results, signal=signals.item_passed)
     process = CrawlerProcess(settings={
-        "USER_AGENT": 'Mozilla/5.0 (Android 10; Mobile; rv:88.0) Gecko/88.0 Firefox/88.0'
+        "USER_AGENT": 'Mozilla/5.0 (Android 10; Mobile; rv:88.0) Gecko/88.0 Firefox/88.0',
+        **settings
     })
     process.crawl(ClalitChecker)
     process.start()
 
     if os.getenv('GMAIL_USERNAME'):
         send_dates_by_mail(results)
+
+
+if __name__ == "__main__":
+    main()

@@ -23,4 +23,18 @@ It will not change your appointment, but will let you know (by mail) that there 
 This will run the script on every 15th minute of the hour (00:00, 00:15, 00:30, 00:45, 01:00 ...)
 
 ## Send mails using gmail
-In order to send emails using SMTP with gmail you will need to configure your gmail account to allow less secure apps amd setup an App password
+In order to send emails using SMTP with gmail you will need to configure your gmail account to allow less secure apps and setup an App password
+
+## Output to a local file
+In order to export the results to a local json file you need to configure the file name. The file will be created and overwriten every execution of the crawler
+
+## Accessing data via HTTP server
+In order to access the information via http server. Build the docker image by running:
+
+`docker build -t clalit-attp-checker:latest .`
+
+And then start run a new container using that image we just built:
+
+`docker run --name clalit-checker -p 3333:3333 clalit-attp-checker`
+
+Notice the port that needs to be exported from the container to the host machine in order to be accessible remotely.
