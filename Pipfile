@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 scrapy = "*"
 python-dotenv = "*"
+flask = "*"
 
 [dev-packages]
 
@@ -14,3 +15,4 @@ python_version = "3.9"
 
 [scripts]
 checker = "python checker.py"
+server = "python server.py"
